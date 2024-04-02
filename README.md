@@ -13,6 +13,7 @@ Ensure that necessary APIs are enabled for your project.
 - Cloud Dataproc API
 - Cloud Resource Manager API 
 - Cloud build API
+- Serverless VPC Access API
 
 
 #### 3. Granting necessary roles: 
@@ -47,8 +48,18 @@ gcloud projects add-iam-policy-binding [PROJECT-ID] \
 - Click Create
 - Ensure that the creation has been finished successfully
 
+#### 5. Create a Serverless VPC Access Connector
+- Go to the "Serverless VPC Access" section. https://console.cloud.google.com/networking/connectors/list
+- Find and click on "Serverless VPC Access" in the left-hand menu.
+- Click on the "Create Connector" button.
+- Fill in the necessary information:
+  - Name: Give your connector a meaningful name. 
+  - Region: Select the same region as your Cloud Run service. 
+  - Network: Choose the VPC network that you want to connect to. 
+  - IP range: Provide an unused IP range in CIDR notation. This range should not overlap with any existing ranges in your VPC. 
+  - Click on the "Create" button to create the connector. 
 
-#### 5. Configure Firewall Rules
+#### 6. Configure Firewall Rules
 - Go to https://console.cloud.google.com/net-security/firewall-manager 
 - Click on "Create Firewall Rule".
 - Specify the name, targets
@@ -59,8 +70,7 @@ gcloud projects add-iam-policy-binding [PROJECT-ID] \
 - Click Create
 - Ensure that the creation has been finished successfully
 
-
-#### 6. Create the Dataproc Cluster
+#### 7. Create the Dataproc Cluster
 - Go to https://console.cloud.google.com/dataproc/clusters 
 - Click create new cluster -> Cluster on Compute Engine
 ###### Set up cluster section
@@ -95,13 +105,13 @@ gcloud dataproc clusters create [CLUSTER-NAME] \
 --project [PROJECT-ID]
 ```
 
-#### 7. Setup a Google Cloud Storage
+#### 8. Setup a Google Cloud Storage
 - Go to https://console.cloud.google.com/storage/browser 
 - Create a new bucket in Cloud Storage. Remember the bucket name. This bucket will serve as the storage location to save metadata of every run of transferred files from HDFS to Vertex AI.
 - Create folders in this bucket **jobs/hadoop-to-vertex-connector**
 
 
-#### 8. Upload files to HDFS
+#### 9. Upload files to HDFS
 - Create a Cloud Storage Bucket: 
 - This bucket will store the files you intend to upload to HDFS, as well as any associated metadata. You can create a bucket through the Cloud Storage browser in the Google Cloud Console.
 
@@ -140,6 +150,8 @@ from google.cloud import dataproc_v1
 from google.cloud.dataproc_v1.types import Job, HadoopJob
 import time
 
+# ==== fill this section
+
 PROJECT_ID = [YOUR-PROJECT]
 REGION = [YOUR-REGION]
 CLUSTER_NAME = [YOUR-DATAPROC-CLUSTER]
@@ -148,6 +160,7 @@ MANIFEST = '[MANIFEST-FILE-NAME].txt'
 SRC_BUCKET_FOLDER = [SOURCE-FOLDER-IN-YOUR-BUCKET]
 DST_HDFS_FOLDER = [DESTINATION-FOLDER-IN-HDFS]
 
+# ==== 
 
 """ If file exists in HDFS it won't be rewritten.  """
 job_client = dataproc_v1.JobControllerClient(client_options={'api_endpoint': f'{REGION}-dataproc.googleapis.com:443'})
@@ -185,7 +198,7 @@ while True:
 job_status
 ```
 
-#### 8. Setup the input.json file
+#### 10. Setup the input.json file
 - Come up with the connector name and connector ID
 - Go to **src/configs** and open input.json
 - Create the **input.json** file as suggested below and set the parameters in it
@@ -228,12 +241,13 @@ job_status
 go to **YOUR CLUSTER -> VM INSTANCES -> MASTER INSTANCE -> Network interfaces**
 
 
-#### 9. Vertex AI (activation)
+#### 11. Vertex AI (activation)
 - Go to https://console.cloud.google.com/gen-app-builder/start 
 - Activate API as suggested
 
 
-#### 10. Create a Cloud run job
+----------------------------------------------
+#### 12. Create a Cloud run job
 - Get the URL of your Docker image that you purchased on Google Cloud Marketplace 
 - Execute the gcloud command below You have two options to do it:
 
@@ -252,11 +266,18 @@ gcloud run jobs deploy [CLOUD-RUN-JOB-NAME] \
    --region [YOUR-REGION] \
    --project [YOUR-PROJECT]
 ```
-Replace [IMAGE-URL] with the URL of your Docker image that you purchased on Google Cloud Marketplace.
+Replace [IMAGE-URL] with the URL of your Docker image that you purchased on Google Cloud Marketplace  
+Image URL mask: **[HOSTNAME]/[PROJECT-ID]/[IMAGE]:[TAG]**
+Example: **marketplace.gcr.io/ambient-odyssey-417807/hadoop-to-vertex-ai-search:latest**
+###### Where:  
+[HOSTNAME] could be marketplace.gcr.io
+[PROJECT-ID] is Google Cloud Project ID.  
+[IMAGE] is the name of container image.  
+[TAG] is the version of the image you want to deploy. If you don't specify a tag, latest is assumed.
 - Run the job at cloud run https://console.cloud.google.com/run/jobs 
 
 
-#### 11. Vertex AI (create an app)
+#### 14. Vertex AI (create an app)
 - Go to https://console.cloud.google.com/gen-app-builder/start 
 - At Apps section click New app
 - Enter app name and company name

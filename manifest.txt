@@ -1,1 +1,0 @@
-gs://hadoop-connector-staging_test/upload_to_hdfs/Akim.Mukhtarov.docx

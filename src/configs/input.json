@@ -1,0 +1,31 @@
+{
+    "connector_name": "hadoop-to-vertex-connector",
+    "connector_id": "hadoop-20240319-171500",
+
+    "source": {
+        "auth_config": {
+            "key_secret": null
+        },
+        "project": "thinking-cacao-418609",
+        "cluster_name": "cluster-6928",
+        "region": "us-central1",
+        "internal_ip": "10.0.0.4",
+        "with_metadata": true,
+        "prefix": "cv_bank",
+        "name_regex": null
+    },
+
+    "export_method": "full",
+    "gcp_staging_gcs_prefix": "gs://hadoop-connector-staging_test/jobs/hadoop-to-vertex-connector/",
+    "state_location": "gs://hadoop-connector-staging_test/jobs/hadoop-to-vertex-connector/state.json",
+
+    "destination": {
+        "project": "thinking-cacao-418609",
+        "location": "global",
+        "data_store_id": null,
+        "data_store_display_name": "hadoop_cv_bank",
+        "with_content": true,
+        "allow_create_data_store": true,
+        "search_first": true
+    }
+}

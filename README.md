@@ -267,7 +267,7 @@ gcloud run jobs deploy [CLOUD-RUN-JOB-NAME] \
    --project [YOUR-PROJECT]
 ```
 Replace [IMAGE-URL] with the URL of your Docker image that you purchased on Google Cloud Marketplace  
-Image URL mask: **[HOSTNAME]/[PROJECT-ID]/[IMAGE]:[TAG]**
+Image URL mask: **[HOSTNAME]/[PROJECT-ID]/[IMAGE]:[TAG]**  
 Example: **marketplace.gcr.io/ambient-odyssey-417807/hadoop-to-vertex-ai-search:latest**
 ###### Where:  
 [HOSTNAME] could be marketplace.gcr.io

@@ -55,20 +55,22 @@ gcloud projects add-iam-policy-binding [PROJECT-ID] \
 - Fill in the necessary information:
   - Name: Give your connector a meaningful name. 
   - Region: Select the same region as your Cloud Run service. 
-  - Network: Choose the VPC network that you want to connect to. 
-  - IP range: Provide an unused IP range in CIDR notation. This range should not overlap with any existing ranges in your VPC. 
-  - Click on the "Create" button to create the connector. 
+  - Network: Choose the VPC network that you created previously. 
+  - Subnet: Choose **Custom IP ranges** and specify an IP range that does not overlap with any existing ranges in your VPC network
+  - Click on the **Create** button to create the connector.
+
 
 #### 6. Configure Firewall Rules
 - Go to https://console.cloud.google.com/net-security/firewall-manager 
 - Click on "Create Firewall Rule".
 - Specify the name, targets
 - Choose the network that you have created at the 3rd step
-- Set Source filter to IPv4 ranges and set IP address range that you have added in 3rd step in VPC network
+- Set Source filter to IPv4 ranges and set IP address range of VPC Network and Serverless VPC Access Connector
 - Set Protocols and ports to Specified protocols and ports 
 - Input TCP Ports: 9870, 9864
 - Click Create
 - Ensure that the creation has been finished successfully
+
 
 #### 7. Create the Dataproc Cluster
 - Go to https://console.cloud.google.com/dataproc/clusters 
@@ -104,6 +106,7 @@ gcloud dataproc clusters create [CLUSTER-NAME] \
 --scopes 'https://www.googleapis.com/auth/cloud-platform' \
 --project [PROJECT-ID]
 ```
+
 
 #### 8. Setup a Google Cloud Storage
 - Go to https://console.cloud.google.com/storage/browser 
@@ -198,6 +201,7 @@ while True:
 job_status
 ```
 
+
 #### 10. Setup the input.json file
 - Come up with the connector name and connector ID
 - Go to **src/configs** and open input.json
@@ -246,7 +250,6 @@ go to **YOUR CLUSTER -> VM INSTANCES -> MASTER INSTANCE -> Network interfaces**
 - Activate API as suggested
 
 
-----------------------------------------------
 #### 12. Create a Cloud run job
 - Get the URL of your Docker image that you purchased on Google Cloud Marketplace 
 - Execute the gcloud command below You have two options to do it:
@@ -264,24 +267,39 @@ gcloud run jobs deploy [CLOUD-RUN-JOB-NAME] \
    --set-env-vars LOG_FORMAT="CLOUD" \
    --max-retries 0 \
    --region [YOUR-REGION] \
-   --project [YOUR-PROJECT]
+   --project [YOUR-PROJECT] \
+   --vpc-connector [SERVERLESS-VPC-CONNECTOR_NAME]
 ```
+###### -- image
 Replace [IMAGE-URL] with the URL of your Docker image that you purchased on Google Cloud Marketplace  
 Image URL mask: **[HOSTNAME]/[PROJECT-ID]/[IMAGE]:[TAG]**  
-Example: **marketplace.gcr.io/ambient-odyssey-417807/hadoop-to-vertex-ai-search:latest**
-###### Where:  
+Example: **marketplace.gcr.io/ambient-odyssey-417807/hadoop-to-vertex-ai-search:latest**  
+**Where:**  
 [HOSTNAME] could be marketplace.gcr.io
 [PROJECT-ID] is Google Cloud Project ID.  
 [IMAGE] is the name of container image.  
-[TAG] is the version of the image you want to deploy. If you don't specify a tag, latest is assumed.
-- Run the job at cloud run https://console.cloud.google.com/run/jobs 
+[TAG] is the version of the image you want to deploy. If you don't specify a tag, latest is assumed.  
+[SERVERLESS-VPC-CONNECTOR_NAME]
+
+###### -- vpc-connector
+Replace [SERVERLESS-VPC-CONNECTOR_NAME] with the name of your connector that you've created at 5th step
+
+###### Finally
+Run the job at cloud run https://console.cloud.google.com/run/jobs 
 
 
 #### 14. Vertex AI (create an app)
 - Go to https://console.cloud.google.com/gen-app-builder/start 
 - At Apps section click New app
-- Enter app name and company name
-- Choose the data store that was created after running the job ab cloud run.  
-The name of the data store is configured in
-**input.json -> destination -> data_store_display_name**
+- Step 1: Select App type - **Search**
+- Stap 2: Enter app name and company name
+- Step 3: Choose the data store that was created after running the job ab cloud run.  
+The name of the data store is configured in **input.json -> destination -> data_store_display_name**
+- Go back to the apps list and click the name of the app 
+- In the navigation menu, click **Configure**
+- Click the **Advanced** tab. 
+- In the Enterprise edition features pane, click the toggle to **ON**
+- Click Save. Your changes take place within a few minutes
+
+#### Now you can provide text search on your files
 

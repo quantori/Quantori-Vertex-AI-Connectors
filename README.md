@@ -292,7 +292,7 @@ Run the job at cloud run https://console.cloud.google.com/run/jobs
 - Go to https://console.cloud.google.com/gen-app-builder/start 
 - At Apps section click New app
 - Step 1: Select App type - **Search**
-- Stap 2: Enter app name and company name
+- Step 2: Enter app name and company name
 - Step 3: Choose the data store that was created after running the job ab cloud run.  
 The name of the data store is configured in **input.json -> destination -> data_store_display_name**
 - Go back to the apps list and click the name of the app 
@@ -301,5 +301,5 @@ The name of the data store is configured in **input.json -> destination -> data_
 - In the Enterprise edition features pane, click the toggle to **ON**
 - Click Save. Your changes take place within a few minutes
 
-#### Now you can provide text search on your files
+#### Congrats! Now you can provide text search on your files
 

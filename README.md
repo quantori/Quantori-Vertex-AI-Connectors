@@ -127,7 +127,7 @@ At this step you should upload files from GCS Storage into HDFS. Go step by step
 ###### Create a Manifest File: 
 - It should be a txt file (ex. manifest.txt). 
 This file should list the paths of all files in the bucket that you plan to upload to HDFS. 
-You should put the whole gsutil URI in that file, eg: gs://[BUCKET-NAME]/[FILE-NAME].pdf
+You should put the whole gsutil URIs in that file, eg: gs://[BUCKET-NAME]/[FILE-NAME]
 
 ###### Access JupyterLab via Dataproc
 - Navigate to Your Dataproc Clusters https://console.cloud.google.com/dataproc/clusters

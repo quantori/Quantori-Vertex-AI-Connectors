@@ -232,7 +232,7 @@ job_status
        "name_regex": null
    },
 
-   "export_method": full,
+   "export_method": "full",
    "gcp_staging_gcs_prefix": "gs://[BUCKET-NAME]/jobs/hadoop-to-vertex-connector/",
    "state_location": "gs://[BUCKET-NAME]/jobs/hadoop-to-vertex-connector/state.json",
 
@@ -270,6 +270,7 @@ gcloud run jobs deploy [CLOUD-RUN-JOB-NAME] \
    --set-env-vars LOG_LEVEL="DEBUG" \
    --set-env-vars LOG_FORMAT="CLOUD" \
    --max-retries 0 \
+   --timeout=3600 \
    --region [YOUR-REGION] \
    --project [YOUR-PROJECT] \
    --vpc-connector [SERVERLESS-VPC-CONNECTOR_NAME]

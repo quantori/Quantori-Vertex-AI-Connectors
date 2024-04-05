@@ -204,9 +204,11 @@ job_status
 
 #### 10. Setup the input.json file
 - Come up with the connector name and connector ID
-- Go to **src/configs** and open input.json
+- Find your Primary internal IP address here: go to **YOUR CLUSTER -> VM INSTANCES -> MASTER INSTANCE -> Network interfaces**
 - Create the **input.json** file as suggested below and set the parameters in it
-- Upload this file **input.json** into the root of your bucket
+- Upload this file **input.json** into the root of your bucket. The path to this file must be **gs://[BUCKET-NAME]/input.json**
+- Make sure that Service Account that will be used to run Cloud run job (step 12) has required permissions to read this file
+###### Content of input.json file:
 ```
 {
    "connector_name": [CONNECTOR-NAME],
@@ -241,8 +243,6 @@ job_status
    }
 }
 ```
-- You can find your Primary internal IP address here: 
-go to **YOUR CLUSTER -> VM INSTANCES -> MASTER INSTANCE -> Network interfaces**
 
 
 #### 11. Vertex AI (activation)

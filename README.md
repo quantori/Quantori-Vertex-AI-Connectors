@@ -61,9 +61,10 @@ gcloud projects add-iam-policy-binding [PROJECT-ID] \
 
 
 #### 6. Configure Firewall Rules
-- Go to https://console.cloud.google.com/net-security/firewall-manager 
+- Go to https://console.cloud.google.com/net-security/firewall-manager/firewall-policies/list
 - Click on **Create Firewall Rule**
-- Specify the name, targets
+- Specify the name
+- Select **All instances in the network** in the **Targets** section
 - Choose the network that you have created at the 4th step
 - Set Source filter to IPv4 ranges and set IP address range of VPC Network and Serverless VPC Access Connector
 - Set Protocols and ports to Specified protocols and ports 
@@ -115,6 +116,7 @@ gcloud dataproc clusters create [CLUSTER-NAME] \
 
 
 #### 9. Upload files to HDFS
+At this step you should upload files from GCS Storage into HDFS. Go step by step to complete it
 - Create a Cloud Storage Bucket: 
 - This bucket will store the files you intend to upload to HDFS, as well as any associated metadata. You can create a bucket through the Cloud Storage browser in the Google Cloud Console.
 
@@ -123,7 +125,9 @@ gcloud dataproc clusters create [CLUSTER-NAME] \
 - Upload the files you wish to transfer to HDFS into this folder.
 
 ###### Create a Manifest File: 
-- It should be a txt file (ex. manifest.txt). This file should list the paths of all files in the bucket that you plan to upload to HDFS. The paths should be relative to the root of the Cloud Storage bucket.
+- It should be a txt file (ex. manifest.txt). 
+This file should list the paths of all files in the bucket that you plan to upload to HDFS. 
+You should put the whole gsutil URI in that file, eg: gs://[BUCKET-NAME]/[FILE-NAME].pdf
 
 ###### Access JupyterLab via Dataproc
 - Navigate to Your Dataproc Clusters https://console.cloud.google.com/dataproc/clusters

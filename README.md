@@ -36,7 +36,7 @@ gcloud projects add-iam-policy-binding [PROJECT-ID] \
 
 #### 4. Setup a VPC Network: 
 - Go to https://console.cloud.google.com/networking/networks
-- Click on "Create VPC network".
+- Click on **Create VPC network**
 - Provide a name for your VPC network. The name must be unique within the project.
 - Set Subnet Creation Mode to custom mode: It allows you to manually specify the subnets and their IP ranges.
 - Provide a name for the subnet.
@@ -53,18 +53,18 @@ gcloud projects add-iam-policy-binding [PROJECT-ID] \
 - Find and click on "Serverless VPC Access" in the left-hand menu.
 - Click on the "Create Connector" button.
 - Fill in the necessary information:
-  - Name: Give your connector a meaningful name. 
-  - Region: Select the same region as your Cloud Run service. 
-  - Network: Choose the VPC network that you created previously. 
-  - Subnet: Choose **Custom IP ranges** and specify an IP range that does not overlap with any existing ranges in your VPC network
-  - Click on the **Create** button to create the connector.
+  - **Name:** Give your connector a meaningful name
+  - **Region:** Select the same region as your Cloud Run service
+  - **Network:** Choose the VPC network that you created previously
+  - **Subnet:** Choose **Custom IP ranges** and specify an IP range that does not overlap with any existing ranges in your VPC network
+  - Click on the **Create** button to create the connector
 
 
 #### 6. Configure Firewall Rules
 - Go to https://console.cloud.google.com/net-security/firewall-manager 
-- Click on "Create Firewall Rule".
+- Click on **Create Firewall Rule**
 - Specify the name, targets
-- Choose the network that you have created at the 3rd step
+- Choose the network that you have created at the 4th step
 - Set Source filter to IPv4 ranges and set IP address range of VPC Network and Serverless VPC Access Connector
 - Set Protocols and ports to Specified protocols and ports 
 - Input TCP Ports: 9870, 9864
@@ -129,8 +129,8 @@ gcloud dataproc clusters create [CLUSTER-NAME] \
 - Navigate to Your Dataproc Clusters https://console.cloud.google.com/dataproc/clusters
 - Ensure that the cluster you intend to use is in the "Running" state and note its name.
 - Click on the name of your cluster to view its details.
-- Find the "Web Interfaces" section.
-- Click on the "JupyterLab" link to open JupyterLab through the Component Gateway.  
+- Find the **Web Interfaces** section.
+- Click on the **JupyterLab** link to open JupyterLab through the Component Gateway.  
 Alternatively, you can find the direct link to JupyterLab under the "Equivalent REST" section of the cluster details page. The link looks like this:
 ```
 {
@@ -275,11 +275,10 @@ Replace [IMAGE-URL] with the URL of your Docker image that you purchased on Goog
 Image URL mask: **[HOSTNAME]/[PROJECT-ID]/[IMAGE]:[TAG]**  
 Example: **marketplace.gcr.io/ambient-odyssey-417807/hadoop-to-vertex-ai-search:latest**  
 **Where:**  
-[HOSTNAME] could be marketplace.gcr.io
+[HOSTNAME] could be marketplace.gcr.io  
 [PROJECT-ID] is Google Cloud Project ID.  
 [IMAGE] is the name of container image.  
-[TAG] is the version of the image you want to deploy. If you don't specify a tag, latest is assumed.  
-[SERVERLESS-VPC-CONNECTOR_NAME]
+[TAG] is the version of the image you want to deploy: **latest** is assumed.
 
 ###### -- vpc-connector
 Replace [SERVERLESS-VPC-CONNECTOR_NAME] with the name of your connector that you've created at 5th step
